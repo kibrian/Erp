@@ -11,6 +11,6 @@ public interface CustomerRepository extends JpaRepository<Customer,Long> {
     @Query(value = "SELECT MAX(c.nuCustomerCode) FROM Customer c")
     Integer getNextCustomerCode();
 
-    boolean existsByVcEmail(String vcEmail);
+    boolean existsByVcCustomerId(String vcCustomerId);
 
 }

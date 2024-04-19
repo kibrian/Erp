@@ -9,6 +9,8 @@ import org.springframework.data.domain.Page;
 import org.springframework.data.domain.Pageable;
 import org.springframework.stereotype.Service;
 
+import java.util.UUID;
+
 @Service
 @AllArgsConstructor
 public class CustomerPlatformServiceImpl implements CustomerPlatformService {
@@ -123,13 +125,23 @@ public class CustomerPlatformServiceImpl implements CustomerPlatformService {
     public CustomerResponse createCustomer(CustomerResponse request) throws CustomerAlreadyExistException {
         try {
             // Check if a customer with the same email already exists
-            boolean customerExists = customerRepository.existsByVcEmail(request.getVcEmail());
+            boolean customerExists = customerRepository.existsByVcCustomerId(request.getVcCustomerId());
             if (customerExists) {
                 return new CustomerResponse("Customer already exists.");
             } else {
+                // Generate unique identifier
+                String uniqueId = UUID.randomUUID().toString();
+
+                // Concatenate "VC" with the unique identifier
+                //String vcCompCode = "VC" + uniqueId;
+
+                // Truncate the generated code to a maximum length of 5 characters
+                //vcCompCode = vcCompCode.substring(0, Math.min(vcCompCode.length(), 5));
+
                 // Proceed with creating the new customer
                 int nextCustomerCode = customerRepository.getNextCustomerCode() != null ? customerRepository.getNextCustomerCode() + 1 : 1;
                 request.setNuCustomerCode(nextCustomerCode);
+                //request.setVcCompCode(vcCompCode);
 
                 Customer customer = mapToMstCustomerResponse(request);
                 Customer savedCustomer = customerRepository.saveAndFlush(customer);
@@ -144,15 +156,15 @@ public class CustomerPlatformServiceImpl implements CustomerPlatformService {
 
         private Customer mapToMstCustomerResponse (CustomerResponse request){
             Customer customer = new Customer();
-            customer.setVcCompCode(request.getVcCompCode());
+            customer.setVcCompCode("01");
             customer.setNuCustomerCode(request.getNuCustomerCode());
             customer.setVcCustomerName(request.getVcCustomerName());
             customer.setVcBillAddress1(request.getVcBillAddress1());
             customer.setVcBillAddress2(request.getVcBillAddress2());
             customer.setVcBillAddress3(request.getVcBillAddress3());
-            customer.setVcBillCity(request.getVcBillCity());
-            customer.setVcBillState(request.getVcBillState());
-            customer.setVcBillCountry(request.getVcBillCountry());
+            customer.setVcBillCity("M1");
+            customer.setVcBillState("01");
+            customer.setVcBillCountry(String.valueOf(1));
             customer.setVcBillPinCode(request.getVcBillPinCode());
             customer.setVcTelephone(request.getVcTelephone());
             customer.setVcEmail(request.getVcEmail());
@@ -179,14 +191,14 @@ public class CustomerPlatformServiceImpl implements CustomerPlatformService {
             customer.setVcCstNo(request.getVcCstNo());
             customer.setVcLstNo(request.getVcLstNo());
             customer.setNuMaxCreditDay(request.getNuMaxCreditDay());
-            customer.setVcCategoryCode(request.getVcCategoryCode());
+            customer.setVcCategoryCode("T002");
             customer.setVcDivisionNo(request.getVcDivisionNo());
             customer.setVcRange(request.getVcRange());
             customer.setVcCollectorate(request.getVcCollectorate());
             customer.setVcRcNo(request.getVcRcNo());
             customer.setVcPitaxGirNo(request.getVcPitaxGirNo());
             customer.setNuAccountCode(request.getNuAccountCode());
-            customer.setNuCurrencyCode(request.getNuCurrencyCode());
+            customer.setNuCurrencyCode(1);
             customer.setVcVendorCode(request.getVcVendorCode());
             customer.setVcEccNo(request.getVcEccNo());
             customer.setVcLicenseNo(request.getVcLicenseNo());
@@ -196,12 +208,12 @@ public class CustomerPlatformServiceImpl implements CustomerPlatformService {
             customer.setChStatFlag(request.getChStatFlag());
             customer.setChStatUpFlag(request.getChStatUpFlag());
             customer.setDtModDate(request.getDtModDate());
-            customer.setVcDefaultComp(request.getVcDefaultComp());
-            customer.setVcAuthCode(request.getVcAuthCode());
-            customer.setVcField1(request.getVcField1());
+            customer.setVcDefaultComp("01");
+            customer.setVcAuthCode("01");
+            customer.setVcField1("A");
             customer.setVcField2(request.getVcField2());
             customer.setVcField3(request.getVcField3());
-            customer.setVcField4(request.getVcField4());
+            customer.setVcField4("A");
             customer.setNuField1(request.getNuField1());
             customer.setNuField2(request.getNuField2());
             customer.setDtField1(request.getDtField1());
@@ -226,8 +238,8 @@ public class CustomerPlatformServiceImpl implements CustomerPlatformService {
             customer.setVcDiscCatg1(request.getVcDiscCatg1());
             customer.setVcDiscCatg2(request.getVcDiscCatg2());
             customer.setVcSalesExec(request.getVcSalesExec());
-            customer.setChStopLimit(request.getChStopLimit());
-            customer.setChStopDays(request.getChStopDays());
+            customer.setChStopLimit("N");
+            customer.setChStopDays("N");
             customer.setVcDiscCatg3(request.getVcDiscCatg3());
             customer.setVcDiscCatg4(request.getVcDiscCatg4());
             customer.setVcCustomerId(request.getVcCustomerId());

@@ -4,19 +4,18 @@ import com.exelient.dotcapital.Erpapi.Customer.data.CustomerResponse;
 import com.exelient.dotcapital.Erpapi.Customer.exception.CustomerAlreadyExistException;
 import com.exelient.dotcapital.Erpapi.Customer.service.CustomerPlatformService;
 import lombok.AllArgsConstructor;
-import org.hibernate.result.Output;
 import java.util.logging.Logger;
 import org.springframework.data.domain.Pageable;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.*;
 
-import java.util.logging.Logger;
 
 @RestController
 @AllArgsConstructor
 @RequestMapping(value = "/api/v1/customer")
 public class MstCustomerApiResource {
+    //Logger logger = Logger.getLogger(MstCustomerApiResource.class.getName());
     private CustomerPlatformService customerPlatformService;
 
     @RequestMapping(value = "/getAll", method = RequestMethod.GET)
