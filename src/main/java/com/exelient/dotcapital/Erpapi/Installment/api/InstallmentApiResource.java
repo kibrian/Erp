@@ -24,6 +24,7 @@ public class InstallmentApiResource {
     //Logger logger = Logger.getLogger(InstallmentApiResource.class.getName());
     private InstallmentService installmentService;
 
+
     @RequestMapping(value = "/getAll", method = RequestMethod.GET)
     public ResponseEntity<?> getAllInstallments(Pageable pageable){
         return new ResponseEntity<>( installmentService.getAllInstallments(pageable), HttpStatus.OK);
