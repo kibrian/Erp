@@ -1,14 +1,14 @@
 spring:
-#  datasource:
-#    url: jdbc:oracle:thin:@localhost:1521/orcl
-#    username: sales
-#    password: sales
-#    driver-class-name: oracle.jdbc.driver.OracleDriver
   datasource:
-    url: jdbc:mysql://localhost:3306/Erp
-    username: root
-    password: smartcode
-    driver-class-name: com.mysql.cj.jdbc.Driver
+    url: jdbc:oracle:thin:@192.168.1.4:1521/orcl
+    username: export
+    password: export
+    driver-class-name: oracle.jdbc.driver.OracleDriver
+#  datasource:
+#    url: jdbc:mysql://localhost:3306/Erp
+#    username: root
+#    password: smartcode
+#    driver-class-name: com.mysql.cj.jdbc.Driver
 jpa:
   hibernate:
     ddl-auto: update

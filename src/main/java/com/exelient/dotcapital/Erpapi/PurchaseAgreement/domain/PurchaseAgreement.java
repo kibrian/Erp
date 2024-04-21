@@ -1,9 +1,7 @@
 package com.exelient.dotcapital.Erpapi.PurchaseAgreement.domain;
 
-import jakarta.persistence.Column;
-import jakarta.persistence.Entity;
-import jakarta.persistence.Id;
-import jakarta.persistence.Table;
+import com.exelient.dotcapital.Erpapi.Customer.domain.Customer;
+import jakarta.persistence.*;
 import lombok.AllArgsConstructor;
 import lombok.Data;
 import lombok.NoArgsConstructor;
@@ -13,7 +11,7 @@ import java.time.LocalDate;
 
 
 @Entity
-@Table(name = "HD_PURCHASE_AGREEMENT", schema = "Erp")
+@Table(name = "HD_PURCHASE_AGREEMENT")
 @AllArgsConstructor
 @NoArgsConstructor
 @Data
@@ -31,9 +29,9 @@ public class PurchaseAgreement {
 
     @Column(name = "VC_PAYMENT_MODE")
     private String vcPaymentMode;
-
-    @Column(name = "VC_CUSTOMER_ID")
-    private String vcCustomerId;
+    @ManyToOne(fetch = FetchType.EAGER)
+    @JoinColumn(name = "VC_CUSTOMER_ID")
+    private Customer vcCustomerId;
 
     @Column(name = "VC_REMARKS")
     private String vcRemarks;
@@ -80,7 +78,8 @@ public class PurchaseAgreement {
     @Column(name = "NU_INTEREST")
     private BigDecimal nuInterest;
 
-    @Column(name = "NU_CUSTOMER_CODE")
+
+    @Column(name = "NU_CUSTOMER_CODE" )
     private Integer nuCustomerCode;
 
     @Column(name = "CH_CREATE_CODE")

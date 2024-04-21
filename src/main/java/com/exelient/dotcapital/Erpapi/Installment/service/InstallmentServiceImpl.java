@@ -31,10 +31,10 @@ public class InstallmentServiceImpl implements InstallmentService {
     // Utility methods for mapping InstallmentData to Installment entity and vice versa
     private Installment mapInstallmentDataToEntity(InstallmentData data) {
         Installment entity = new Installment();
-        entity.setVcCompCode(data.getVcCompCode());
+        entity.setVcCompCode("01");
         entity.setVcAgreementNo(data.getVcAgreementNo());
         entity.setDtAgreementDate(data.getDtAgreementDate());
-        entity.setNuSerialNo(data.getNuSerialNo());
+        entity.setNuSerialNo(1);
         entity.setDtInstallmentDate(data.getDtInstallmentDate());
         entity.setNuPrincipalInstAmount(data.getNuPrincipalInstAmount());
         entity.setNuInterestInstAmount(data.getNuInterestInstAmount());
@@ -48,8 +48,8 @@ public class InstallmentServiceImpl implements InstallmentService {
         entity.setNuAmtAllocated(data.getNuAmtAllocated());
         entity.setNuTotAmtAllocated(data.getNuTotAmtAllocated());
         entity.setDtModDate(data.getDtModDate());
-        entity.setVcDefaultComp(data.getVcDefaultComp());
-        entity.setVcAuthCode(data.getVcAuthCode());
+        entity.setVcDefaultComp("01");
+        entity.setVcAuthCode("01");
         entity.setNuTotChequeAmount(data.getNuTotChequeAmount());
         entity.setNuInstallmentAmt(data.getNuInstallmentAmt());
         entity.setVcReceiptVoucherNo2(data.getVcReceiptVoucherNo2());
@@ -62,7 +62,7 @@ public class InstallmentServiceImpl implements InstallmentService {
         entity.setNuChequeAmount3(data.getNuChequeAmount3());
         entity.setDtChequeDate3(data.getDtChequeDate3());
         entity.setDtVoucherDate3(data.getDtVoucherDate3());
-        entity.setChInvoice(data.getChInvoice());
+        entity.setChInvoice("N");
         entity.setNuPenalty(data.getNuPenalty());
         entity.setNuPenaltyOther(data.getNuPenaltyOther());
         return entity;

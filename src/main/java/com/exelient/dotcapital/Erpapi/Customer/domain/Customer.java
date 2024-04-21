@@ -10,7 +10,7 @@ import java.util.Date;
 
 @Data
 @Entity
-@Table(name = "mst_customer")
+@Table(name = "MST_CUSTOMER")
 @AllArgsConstructor
 @NoArgsConstructor
 public class Customer {

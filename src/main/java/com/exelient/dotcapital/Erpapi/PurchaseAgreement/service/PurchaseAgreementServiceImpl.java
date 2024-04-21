@@ -1,5 +1,8 @@
 package com.exelient.dotcapital.Erpapi.PurchaseAgreement.service;
 
+import com.exelient.dotcapital.Erpapi.Customer.domain.Customer;
+import com.exelient.dotcapital.Erpapi.Customer.exception.CustomerNotFoundException;
+import com.exelient.dotcapital.Erpapi.Customer.repository.CustomerRepository;
 import com.exelient.dotcapital.Erpapi.PurchaseAgreement.data.PurchaseAgreementData;
 import com.exelient.dotcapital.Erpapi.PurchaseAgreement.domain.PurchaseAgreement;
 import com.exelient.dotcapital.Erpapi.PurchaseAgreement.repository.PurchaseAgreementRepository;
@@ -13,8 +16,10 @@ import java.math.BigDecimal;
 
 @Service
 @AllArgsConstructor
+@Transactional
 public class PurchaseAgreementServiceImpl implements PurchaseAgreementService {
     private final PurchaseAgreementRepository repository;
+    private final CustomerRepository customerRepository;
     @Override
     public Page<PurchaseAgreementData> getAllPurchaseAgreements(Pageable pageable) {
         Page<PurchaseAgreement> purchaseAgreementsPage = repository.findAll(pageable);
@@ -27,7 +32,7 @@ public class PurchaseAgreementServiceImpl implements PurchaseAgreementService {
         data.setVcAgreementNo(purchaseAgreement.getVcAgreementNo());
         data.setDtAgreementDate(purchaseAgreement.getDtAgreementDate());
         data.setVcPaymentMode(purchaseAgreement.getVcPaymentMode());
-        data.setVcCustomerId(purchaseAgreement.getVcCustomerId());
+        data.setVcCustomerId(purchaseAgreement.getVcCustomerId().getVcCustomerId());
         data.setVcRemarks(purchaseAgreement.getVcRemarks());
         data.setNuValue(purchaseAgreement.getNuValue());
         data.setNuTenure(purchaseAgreement.getNuTenure());
@@ -43,7 +48,7 @@ public class PurchaseAgreementServiceImpl implements PurchaseAgreementService {
         data.setVcAuthCode(purchaseAgreement.getVcAuthCode());
         data.setChAuth(purchaseAgreement.getChAuth());
         data.setNuInterest(purchaseAgreement.getNuInterest());
-        data.setNuCustomerCode(purchaseAgreement.getNuCustomerCode());
+        data.setNuCustomerCode(purchaseAgreement.getVcCustomerId().getNuCustomerCode());
         data.setChCreateCode(purchaseAgreement.getChCreateCode());
         data.setChInterestType(purchaseAgreement.getChInterestType());
         data.setVcCode(purchaseAgreement.getVcCode());
@@ -74,13 +79,15 @@ public class PurchaseAgreementServiceImpl implements PurchaseAgreementService {
     }
 
     @Override
-    public PurchaseAgreementData createPurchaseAgreement(PurchaseAgreementData request) {
+    public PurchaseAgreementData createPurchaseAgreement(PurchaseAgreementData request) throws CustomerNotFoundException {
+        Customer customer  = customerRepository.findByVcCustomerId(request.getVcCustomerId());
+
         PurchaseAgreement purchaseAgreement = new PurchaseAgreement();
         purchaseAgreement.setVcCompCode("01");
         purchaseAgreement.setVcAgreementNo(request.getVcAgreementNo());
         purchaseAgreement.setDtAgreementDate(request.getDtAgreementDate());
         purchaseAgreement.setVcPaymentMode("BANK");
-        purchaseAgreement.setVcCustomerId(request.getVcCustomerId());
+        purchaseAgreement.setVcCustomerId(customer);
         purchaseAgreement.setVcRemarks(request.getVcRemarks());
         purchaseAgreement.setNuValue(request.getNuValue());
         purchaseAgreement.setNuTenure(1);
@@ -96,18 +103,47 @@ public class PurchaseAgreementServiceImpl implements PurchaseAgreementService {
         purchaseAgreement.setVcAuthCode("01");
         purchaseAgreement.setChAuth("Y");
         purchaseAgreement.setNuInterest(request.getNuInterest());
-        purchaseAgreement.setNuCustomerCode(request.getNuCustomerCode());
+
+
+
+
+
+        // Retrieve the vcCustomerId from the request
+        String vcCustomerId = request.getVcCustomerId();
+
+        if (customer != null) {
+            // If the customer exists, retrieve the customer code
+            Integer nuCustomerCode = customer.getNuCustomerCode();
+
+            // Set the customer code to the purchase agreement
+            purchaseAgreement.setNuCustomerCode(nuCustomerCode);
+        } else {
+            // If no customer is found, handle the case appropriately
+            // Option 1: Throw a custom exception if the customer is not found
+            throw new RuntimeException("Customer with ID " + vcCustomerId + " not found.");
+
+            // Option 2: Alternatively, log an error message if an exception is not desired
+            // Log.error("Customer with ID " + vcCustomerId + " not found.");
+        }
+
+
+
+
+
+
+
+        purchaseAgreement.setNuCustomerCode(customer.getNuCustomerCode());
         purchaseAgreement.setChCreateCode("01");
         purchaseAgreement.setChInterestType("S");
         purchaseAgreement.setVcCode("81");
         purchaseAgreement.setVcSalesmanCode(request.getVcSalesmanCode());
         purchaseAgreement.setNuSalesAccountCode(request.getNuSalesAccountCode());
-        purchaseAgreement.setNuIntAccCode(request.getNuIntAccCode());
+        purchaseAgreement.setNuIntAccCode(31);
         purchaseAgreement.setNuTotAmount(request.getNuTotAmount());
-        purchaseAgreement.setChCancelApplication(request.getChCancelApplication());
+        purchaseAgreement.setChCancelApplication("N");
         purchaseAgreement.setDtCommencementDate(request.getDtCommencementDate());
-        purchaseAgreement.setVcFacilityNo(request.getVcFacilityNo());
-        purchaseAgreement.setVcType(request.getVcType());
+        purchaseAgreement.setVcFacilityNo("LOAN");
+        purchaseAgreement.setVcType("M");
         purchaseAgreement.setVcLoanType(request.getVcLoanType());
         purchaseAgreement.setNuInsurance(request.getNuInsurance());
         purchaseAgreement.setNuProcess(request.getNuProcess());
@@ -119,9 +155,9 @@ public class PurchaseAgreementServiceImpl implements PurchaseAgreementService {
         purchaseAgreement.setNuLdischarge(request.getNuLdischarge());
         purchaseAgreement.setNuOthers(request.getNuOthers());
         purchaseAgreement.setNuCharteld(request.getNuCharteld());
-        purchaseAgreement.setNuLoanProcess(request.getNuLoanProcess());
-        purchaseAgreement.setVcCurrency(request.getVcCurrency());
-        purchaseAgreement.setNuCurrencyCode(request.getNuCurrencyCode());
+        purchaseAgreement.setNuLoanProcess(BigDecimal.valueOf(0));
+        purchaseAgreement.setVcCurrency("KSH");
+        purchaseAgreement.setNuCurrencyCode(1);
         purchaseAgreement.setNuConvFactor(request.getNuConvFactor());
 
         // Save the purchase agreement to the database

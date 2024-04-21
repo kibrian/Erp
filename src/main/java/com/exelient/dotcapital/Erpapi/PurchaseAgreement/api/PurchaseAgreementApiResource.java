@@ -1,5 +1,6 @@
 package com.exelient.dotcapital.Erpapi.PurchaseAgreement.api;
 
+import com.exelient.dotcapital.Erpapi.Customer.exception.CustomerNotFoundException;
 import com.exelient.dotcapital.Erpapi.PurchaseAgreement.data.PurchaseAgreementData;
 import com.exelient.dotcapital.Erpapi.PurchaseAgreement.service.PurchaseAgreementService;
 import lombok.AllArgsConstructor;
@@ -28,7 +29,7 @@ public class PurchaseAgreementApiResource {
     }
 
     @RequestMapping(value = "/create", method = RequestMethod.POST)
-    public ResponseEntity<?> CreatePurchaseAgreement(@RequestBody PurchaseAgreementData request) {
+    public ResponseEntity<?> CreatePurchaseAgreement(@RequestBody PurchaseAgreementData request) throws CustomerNotFoundException {
         //logger.info(request.toString());
         System.out.println(request);
         return new ResponseEntity<>( purchaseAgreementService.createPurchaseAgreement(request), HttpStatus.OK);
