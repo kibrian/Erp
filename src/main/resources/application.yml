@@ -1,6 +1,6 @@
 spring:
   datasource:
-    url: jdbc:oracle:thin:@192.168.1.4:1521/orcl
+    url: jdbc:oracle:thin:@localhost:1521/orcl
     username: export
     password: export
     driver-class-name: oracle.jdbc.driver.OracleDriver
@@ -19,3 +19,5 @@ jpa:
 #    org.hibernate: DEBUG
 server:
   port: 9090
+
+#	implementation 'mysql:mysql-connector-java:8.0.27' // Use the appropriate version
