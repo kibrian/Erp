@@ -15,6 +15,7 @@ public interface CustomerRepository extends JpaRepository<Customer,Long> {
 
     boolean existsByVcCustomerId(String vcCustomerId);
 
+    @Query(value = "SELECT * FROM mst_customer WHERE vc_customer_id = ?", nativeQuery = true)
     Customer findByVcCustomerId(String vcCustomerId);
 
 
