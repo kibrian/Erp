@@ -19,7 +19,7 @@ public class CustomerPlatformServiceImpl implements CustomerPlatformService {
 
     @Override
     public Page<CustomerResponse> getAllCustomers(Pageable pageable) {
-        Page<Customer> customersPage = customerRepository.findAll(pageable);
+        Page<Customer> customersPage = customerRepository.findAllCustomers(pageable);
         return customersPage.map(this::mapToCustomerResponse);
     }
 

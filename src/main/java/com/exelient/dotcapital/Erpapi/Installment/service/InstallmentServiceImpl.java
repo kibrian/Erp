@@ -3,10 +3,14 @@ package com.exelient.dotcapital.Erpapi.Installment.service;
 import com.exelient.dotcapital.Erpapi.Installment.data.InstallmentData;
 import com.exelient.dotcapital.Erpapi.Installment.domain.Installment;
 import com.exelient.dotcapital.Erpapi.Installment.repository.InstallmentRepository;
+import com.exelient.dotcapital.Erpapi.PurchaseAgreement.domain.PurchaseAgreement;
+import com.exelient.dotcapital.Erpapi.PurchaseAgreement.repository.PurchaseAgreementRepository;
 import lombok.AllArgsConstructor;
 import org.springframework.data.domain.Page;
 import org.springframework.data.domain.Pageable;
 import org.springframework.stereotype.Service;
+
+import java.util.Optional;
 
 
 @AllArgsConstructor
@@ -14,6 +18,7 @@ import org.springframework.stereotype.Service;
 public class InstallmentServiceImpl implements InstallmentService {
 
     private final InstallmentRepository installmentRepository;
+    private final PurchaseAgreementRepository agreementRepo;
 
     @Override
     public Page<InstallmentData> getAllInstallments(Pageable pageable) {
@@ -30,9 +35,11 @@ public class InstallmentServiceImpl implements InstallmentService {
 
     // Utility methods for mapping InstallmentData to Installment entity and vice versa
     private Installment mapInstallmentDataToEntity(InstallmentData data) {
+        Optional<PurchaseAgreement> existingAgreement = agreementRepo.findByVcAgreementNo(data.getVcAgreementNo());
+        if (existingAgreement.isPresent()) {}
         Installment entity = new Installment();
         entity.setVcCompCode("01");
-        entity.setVcAgreementNo(data.getVcAgreementNo());
+        entity.setVcAgreementNo(existingAgreement.get());
         entity.setDtAgreementDate(data.getDtAgreementDate());
         entity.setNuSerialNo(data.getNuSerialNo());
         entity.setDtInstallmentDate(data.getDtInstallmentDate());
@@ -71,7 +78,7 @@ public class InstallmentServiceImpl implements InstallmentService {
     private InstallmentData mapEntityToInstallmentData(Installment entity) {
         InstallmentData data = new InstallmentData();
         data.setVcCompCode(entity.getVcCompCode());
-        data.setVcAgreementNo(entity.getVcAgreementNo());
+        data.setVcAgreementNo(entity.getVcAgreementNo().getVcAgreementNo());
         data.setDtAgreementDate(entity.getDtAgreementDate());
         data.setNuSerialNo(entity.getNuSerialNo());
         data.setDtInstallmentDate(entity.getDtInstallmentDate());

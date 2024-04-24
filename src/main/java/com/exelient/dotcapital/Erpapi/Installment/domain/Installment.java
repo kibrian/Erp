@@ -1,9 +1,7 @@
 package com.exelient.dotcapital.Erpapi.Installment.domain;
 
-import jakarta.persistence.Column;
-import jakarta.persistence.Entity;
-import jakarta.persistence.Id;
-import jakarta.persistence.Table;
+import com.exelient.dotcapital.Erpapi.PurchaseAgreement.domain.PurchaseAgreement;
+import jakarta.persistence.*;
 import lombok.AllArgsConstructor;
 import lombok.Data;
 import lombok.NoArgsConstructor;
@@ -22,8 +20,9 @@ public class Installment {
     @Column(name = "VC_COMP_CODE")
     private String vcCompCode;
 
+    @ManyToOne
     @Column(name = "VC_AGREEMENT_NO")
-    private String vcAgreementNo;
+    private PurchaseAgreement vcAgreementNo;
 
     @Column(name = "DT_AGREEMENT_DATE")
     private LocalDate dtAgreementDate;
