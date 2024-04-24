@@ -13,7 +13,8 @@ public interface CustomerRepository extends JpaRepository<Customer,Long> {
     @Query(value = "SELECT MAX(c.nuCustomerCode) FROM Customer c")
     Integer getNextCustomerCode();
 
-    boolean existsByVcCustomerId(String vcCustomerId);
+    @Query(value = "SELECT * FROM mst_customer WHERE vc_customer_id = ?", nativeQuery = true)
+    Optional<Customer> existsByVcCustomerId(String vcCustomerId);
 
     @Query(value = "SELECT * FROM mst_customer WHERE vc_customer_id = ?", nativeQuery = true)
     Customer findByVcCustomerId(String vcCustomerId);

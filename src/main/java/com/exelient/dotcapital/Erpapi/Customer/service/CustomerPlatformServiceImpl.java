@@ -9,6 +9,7 @@ import org.springframework.data.domain.Page;
 import org.springframework.data.domain.Pageable;
 import org.springframework.stereotype.Service;
 
+import java.util.Optional;
 import java.util.UUID;
 
 @Service
@@ -125,8 +126,8 @@ public class CustomerPlatformServiceImpl implements CustomerPlatformService {
     public CustomerResponse createCustomer(CustomerResponse request) throws CustomerAlreadyExistException {
         try {
             // Check if a customer with the same email already exists
-            boolean customerExists = customerRepository.existsByVcCustomerId(request.getVcCustomerId());
-            if (customerExists) {
+            Optional<Customer> customerExists = customerRepository.existsByVcCustomerId(request.getVcCustomerId());
+            if (customerExists.isPresent()) {
                 return new CustomerResponse("Customer already exists.");
             } else {
                 // Generate unique identifier
