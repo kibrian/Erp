@@ -1,12 +1,9 @@
 package com.exelient.dotcapital.Erpapi.account.service;
 
-import com.exelient.dotcapital.Erpapi.Customer.domain.Customer;
-import com.exelient.dotcapital.Erpapi.Customer.exception.CustomerNotFoundException;
-import com.exelient.dotcapital.Erpapi.Customer.repository.CustomerRepository;
+
 import com.exelient.dotcapital.Erpapi.account.data.AccountRequestData;
 import com.exelient.dotcapital.Erpapi.account.domain.Account;
 import com.exelient.dotcapital.Erpapi.account.repository.AccountRepository;
-import jakarta.transaction.Transactional;
 import lombok.AllArgsConstructor;
 import org.springframework.data.domain.Page;
 import org.springframework.data.domain.Pageable;
@@ -34,6 +31,10 @@ public class AccountServiceImpl implements AccountService {
             Account existingAccount = existingAccountOptional.get();
             return mapToAccountRequestData(existingAccount);
         } else {
+
+            // Proceed with creating the new customer
+            int nextAccountCode = accountRepository.getNextAccountCode() != null ? accountRepository.getNextAccountCode() + 1 : 1;
+            request.setAccountCode(nextAccountCode);
             // Account does not exist, proceed with creation
             Account account = mapAccountRequestDataToEntity(request);
             Account savedAccount = accountRepository.saveAndFlush(account);

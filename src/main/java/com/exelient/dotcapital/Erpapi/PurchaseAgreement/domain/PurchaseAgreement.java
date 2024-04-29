@@ -11,10 +11,11 @@ import java.time.LocalDate;
 
 
 @Entity
-@Table(name = "HD_PURCHASE_AGREEMENT", schema = "")
+@Table(name = "HD_PURCHASE_AGREEMENT")
 @AllArgsConstructor
 @NoArgsConstructor
 @Data
+//, schema = "sales"
 public class PurchaseAgreement {
 
     @Id
