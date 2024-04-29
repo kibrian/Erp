@@ -4,6 +4,10 @@ import com.exelient.dotcapital.Erpapi.Customer.data.CustomerResponse;
 import com.exelient.dotcapital.Erpapi.Customer.domain.Customer;
 import com.exelient.dotcapital.Erpapi.Customer.exception.CustomerAlreadyExistException;
 import com.exelient.dotcapital.Erpapi.Customer.repository.CustomerRepository;
+import com.exelient.dotcapital.Erpapi.account.data.AccountRequestData;
+import com.exelient.dotcapital.Erpapi.account.domain.Account;
+import com.exelient.dotcapital.Erpapi.account.repository.AccountRepository;
+import com.exelient.dotcapital.Erpapi.account.service.AccountService;
 import lombok.AllArgsConstructor;
 import org.springframework.data.domain.Page;
 import org.springframework.data.domain.Pageable;
@@ -16,6 +20,7 @@ import java.util.UUID;
 @AllArgsConstructor
 public class CustomerPlatformServiceImpl implements CustomerPlatformService {
     private final CustomerRepository customerRepository;
+    private final AccountRepository accountRepository;
 
     @Override
     public Page<CustomerResponse> getAllCustomers(Pageable pageable) {
@@ -144,8 +149,10 @@ public class CustomerPlatformServiceImpl implements CustomerPlatformService {
                 request.setNuCustomerCode(nextCustomerCode);
                 //request.setVcCompCode(vcCompCode);
 
+
                 Customer customer = mapToMstCustomerResponse(request);
                 Customer savedCustomer = customerRepository.saveAndFlush(customer);
+
                 return mapToCustomerResponse(savedCustomer);
             }
         } catch (Exception e) {
@@ -164,7 +171,7 @@ public class CustomerPlatformServiceImpl implements CustomerPlatformService {
             customer.setVcBillAddress2(request.getVcBillAddress2());
             customer.setVcBillAddress3(request.getVcBillAddress3());
             customer.setVcBillCity("M1");
-            customer.setVcBillState("01");
+            customer.setVcBillState("O1");
             customer.setVcBillCountry(String.valueOf(1));
             customer.setVcBillPinCode(request.getVcBillPinCode());
             customer.setVcTelephone(request.getVcTelephone());
@@ -250,6 +257,7 @@ public class CustomerPlatformServiceImpl implements CustomerPlatformService {
             //customer.setVcIdPlace(request.getVcIdPlace());
             // customer.setBlSignature(request.getBlSignature());
             //  customer.setBlLogo(request.getBlLogo());
+
             return customer;
         }
 
@@ -344,12 +352,12 @@ public class CustomerPlatformServiceImpl implements CustomerPlatformService {
             response.setVcCustomerId(customer.getVcCustomerId());
             response.setDtRegDate(customer.getDtRegDate());
             response.setIdNo(customer.getIdNo());
-//        response.setDtIdDate(customer.getDtIdDate());
-//        response.setVcIdPlace(customer.getVcIdPlace());
-//        response.setBlSignature(customer.getBlSignature());
-//        response.setBlLogo(customer.getBlLogo());
+ //         response.setDtIdDate(customer.getDtIdDate());
+//          response.setVcIdPlace(customer.getVcIdPlace());
+//          response.setBlSignature(customer.getBlSignature());
+//          response.setBlLogo(customer.getBlLogo());
             return response;
         }
 
-    }
+}
 

@@ -23,5 +23,10 @@ public interface CustomerRepository extends JpaRepository<Customer,Long> {
     @Query(value = "SELECT * FROM mst_customer WHERE vc_customer_id = ?", nativeQuery = true)
     Customer findByVcCustomerId(String vcCustomerId);
 
+    @Query(value = "SELECT * FROM mst_customer WHERE nu_account_code = ?", nativeQuery = true)
+    Optional<Customer> existsByNuAccountCode(Integer accountCode);
+
+
+
 
 }

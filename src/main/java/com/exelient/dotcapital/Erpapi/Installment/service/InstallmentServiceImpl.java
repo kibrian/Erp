@@ -39,7 +39,7 @@ public class InstallmentServiceImpl implements InstallmentService {
         if (existingAgreement.isPresent()) {}
         Installment entity = new Installment();
         entity.setVcCompCode("01");
-        entity.setVcAgreementNo(existingAgreement.get());
+        entity.setVcAgreementNo(data.getVcAgreementNo());
         entity.setDtAgreementDate(data.getDtAgreementDate());
         entity.setNuSerialNo(data.getNuSerialNo());
         entity.setDtInstallmentDate(data.getDtInstallmentDate());
@@ -78,7 +78,7 @@ public class InstallmentServiceImpl implements InstallmentService {
     private InstallmentData mapEntityToInstallmentData(Installment entity) {
         InstallmentData data = new InstallmentData();
         data.setVcCompCode(entity.getVcCompCode());
-        data.setVcAgreementNo(entity.getVcAgreementNo().getVcAgreementNo());
+        data.setVcAgreementNo(entity.getVcAgreementNo());
         data.setDtAgreementDate(entity.getDtAgreementDate());
         data.setNuSerialNo(entity.getNuSerialNo());
         data.setDtInstallmentDate(entity.getDtInstallmentDate());

@@ -58,4 +58,5 @@ public class PurchaseAgreementData {
     private String vcCurrency;
     private Integer nuCurrencyCode;
     private BigDecimal nuConvFactor;
+    private String chType;
 }

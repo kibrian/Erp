@@ -6,6 +6,8 @@ import com.exelient.dotcapital.Erpapi.Customer.repository.CustomerRepository;
 import com.exelient.dotcapital.Erpapi.PurchaseAgreement.data.PurchaseAgreementData;
 import com.exelient.dotcapital.Erpapi.PurchaseAgreement.domain.PurchaseAgreement;
 import com.exelient.dotcapital.Erpapi.PurchaseAgreement.repository.PurchaseAgreementRepository;
+import com.exelient.dotcapital.Erpapi.account.domain.Account;
+import com.exelient.dotcapital.Erpapi.account.repository.AccountRepository;
 import lombok.AllArgsConstructor;
 import org.springframework.data.domain.Page;
 import org.springframework.data.domain.Pageable;
@@ -13,6 +15,7 @@ import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
 
 import java.math.BigDecimal;
+import java.util.Optional;
 
 @Service
 @AllArgsConstructor
@@ -20,6 +23,7 @@ import java.math.BigDecimal;
 public class PurchaseAgreementServiceImpl implements PurchaseAgreementService {
     private final PurchaseAgreementRepository repository;
     private final CustomerRepository customerRepository;
+    private final AccountRepository accountRepository;
     @Override
     public Page<PurchaseAgreementData> getAllPurchaseAgreements(Pageable pageable) {
         Page<PurchaseAgreement> purchaseAgreementsPage = repository.findAll(pageable);
@@ -32,7 +36,7 @@ public class PurchaseAgreementServiceImpl implements PurchaseAgreementService {
         data.setVcAgreementNo(purchaseAgreement.getVcAgreementNo());
         data.setDtAgreementDate(purchaseAgreement.getDtAgreementDate());
         data.setVcPaymentMode(purchaseAgreement.getVcPaymentMode());
-        data.setVcCustomerId(purchaseAgreement.getVcCustomerId().getVcCustomerId());
+        data.setVcCustomerId(purchaseAgreement.getVcCustomerId());
         data.setVcRemarks(purchaseAgreement.getVcRemarks());
         data.setNuValue(purchaseAgreement.getNuValue());
         data.setNuTenure(purchaseAgreement.getNuTenure());
@@ -48,7 +52,7 @@ public class PurchaseAgreementServiceImpl implements PurchaseAgreementService {
         data.setVcAuthCode(purchaseAgreement.getVcAuthCode());
         data.setChAuth(purchaseAgreement.getChAuth());
         data.setNuInterest(purchaseAgreement.getNuInterest());
-        data.setNuCustomerCode(purchaseAgreement.getVcCustomerId().getNuCustomerCode());
+        data.setNuCustomerCode(purchaseAgreement.getNuCustomerCode());
         data.setChCreateCode(purchaseAgreement.getChCreateCode());
         data.setChInterestType(purchaseAgreement.getChInterestType());
         data.setVcCode(purchaseAgreement.getVcCode());
@@ -81,18 +85,19 @@ public class PurchaseAgreementServiceImpl implements PurchaseAgreementService {
     @Override
     public PurchaseAgreementData createPurchaseAgreement(PurchaseAgreementData request) throws CustomerNotFoundException {
         Customer customer  = customerRepository.findByVcCustomerId(request.getVcCustomerId());
+        Optional<Account> account   = accountRepository.existsByVcCustomerId(request.getVcCustomerId());
 
         PurchaseAgreement purchaseAgreement = new PurchaseAgreement();
         purchaseAgreement.setVcCompCode("01");
         purchaseAgreement.setVcAgreementNo(request.getVcAgreementNo());
         purchaseAgreement.setDtAgreementDate(request.getDtAgreementDate());
         purchaseAgreement.setVcPaymentMode("BANK");
-        purchaseAgreement.setVcCustomerId(customer);
+        purchaseAgreement.setVcCustomerId(request.getVcCustomerId());
         purchaseAgreement.setVcRemarks(request.getVcRemarks());
         purchaseAgreement.setNuValue(request.getNuValue());
         purchaseAgreement.setNuTenure(1);
         purchaseAgreement.setVcInsuranceDetails(request.getVcInsuranceDetails());
-        purchaseAgreement.setVcSalesAccount(request.getVcSalesAccount());
+        purchaseAgreement.setVcSalesAccount(account.get().getAccountName());
         purchaseAgreement.setNuDownpayment(BigDecimal.valueOf(0));
         purchaseAgreement.setNuTotInst(1);
         purchaseAgreement.setVcTrackingDevice(request.getVcTrackingDevice());
@@ -101,12 +106,8 @@ public class PurchaseAgreementServiceImpl implements PurchaseAgreementService {
         purchaseAgreement.setDtModDate(request.getDtModDate());
         purchaseAgreement.setVcDefaultComp("01");
         purchaseAgreement.setVcAuthCode("01");
-        purchaseAgreement.setChAuth("Y");
+        purchaseAgreement.setChAuth("N");
         purchaseAgreement.setNuInterest(request.getNuInterest());
-
-
-
-
 
         // Retrieve the vcCustomerId from the request
         String vcCustomerId = request.getVcCustomerId();
@@ -126,19 +127,13 @@ public class PurchaseAgreementServiceImpl implements PurchaseAgreementService {
             // Log.error("Customer with ID " + vcCustomerId + " not found.");
         }
 
-
-
-
-
-
-
         purchaseAgreement.setNuCustomerCode(customer.getNuCustomerCode());
         purchaseAgreement.setChCreateCode("01");
         purchaseAgreement.setChInterestType("S");
         purchaseAgreement.setVcCode("81");
         purchaseAgreement.setVcSalesmanCode(request.getVcSalesmanCode());
-        purchaseAgreement.setNuSalesAccountCode(request.getNuSalesAccountCode());
-        purchaseAgreement.setNuIntAccCode(31);
+        purchaseAgreement.setNuSalesAccountCode(account.get().getAccountCode());
+        purchaseAgreement.setNuIntAccCode(369);
         purchaseAgreement.setNuTotAmount(request.getNuTotAmount());
         purchaseAgreement.setChCancelApplication("N");
         purchaseAgreement.setDtCommencementDate(request.getDtCommencementDate());
@@ -159,6 +154,7 @@ public class PurchaseAgreementServiceImpl implements PurchaseAgreementService {
         purchaseAgreement.setVcCurrency("KSH");
         purchaseAgreement.setNuCurrencyCode(1);
         purchaseAgreement.setNuConvFactor(request.getNuConvFactor());
+        purchaseAgreement.setChType("A");
 
         // Save the purchase agreement to the database
         PurchaseAgreement savedPurchaseAgreement = repository.saveAndFlush(purchaseAgreement);

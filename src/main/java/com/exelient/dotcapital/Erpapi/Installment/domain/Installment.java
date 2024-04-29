@@ -1,6 +1,5 @@
 package com.exelient.dotcapital.Erpapi.Installment.domain;
 
-import com.exelient.dotcapital.Erpapi.PurchaseAgreement.domain.PurchaseAgreement;
 import jakarta.persistence.*;
 import lombok.AllArgsConstructor;
 import lombok.Data;
@@ -10,19 +9,18 @@ import java.math.BigDecimal;
 import java.time.LocalDate;
 
 @Entity
-@Table(name = "DT_INSTALLMENT")
+@Table(name = "DT_INSTALLMENT", schema = "sales")
 @AllArgsConstructor
 @NoArgsConstructor
 @Data
 public class Installment {
 
     @Id
+    @Column(name = "VC_AGREEMENT_NO")
+    private String vcAgreementNo;
+
     @Column(name = "VC_COMP_CODE")
     private String vcCompCode;
-
-    @ManyToOne
-    @JoinColumn(name = "VC_AGREEMENT_NO")
-    private PurchaseAgreement vcAgreementNo;
 
     @Column(name = "DT_AGREEMENT_DATE")
     private LocalDate dtAgreementDate;

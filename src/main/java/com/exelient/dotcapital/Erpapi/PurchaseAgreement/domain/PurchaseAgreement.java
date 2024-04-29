@@ -11,27 +11,26 @@ import java.time.LocalDate;
 
 
 @Entity
-@Table(name = "HD_PURCHASE_AGREEMENT")
+@Table(name = "HD_PURCHASE_AGREEMENT", schema = "")
 @AllArgsConstructor
 @NoArgsConstructor
 @Data
 public class PurchaseAgreement {
 
     @Id
-    @Column(name = "VC_COMP_CODE")
-    private String vcCompCode;
-
     @Column(name = "VC_AGREEMENT_NO")
     private String vcAgreementNo;
+
+    @Column(name = "VC_COMP_CODE")
+    private String vcCompCode;
 
     @Column(name = "DT_AGREEMENT_DATE")
     private LocalDate dtAgreementDate;
 
     @Column(name = "VC_PAYMENT_MODE")
     private String vcPaymentMode;
-    @ManyToOne(fetch = FetchType.EAGER)
-    @JoinColumn(name = "VC_CUSTOMER_ID")
-    private Customer vcCustomerId;
+    @Column(name = "VC_CUSTOMER_ID")
+    private String vcCustomerId;
 
     @Column(name = "VC_REMARKS")
     private String vcRemarks;
@@ -159,5 +158,8 @@ public class PurchaseAgreement {
 
     @Column(name = "NU_CONV_FACTOR")
     private BigDecimal nuConvFactor;
+
+    @Column(name = "CH_TYPE")
+    private String chType;
 
 }
