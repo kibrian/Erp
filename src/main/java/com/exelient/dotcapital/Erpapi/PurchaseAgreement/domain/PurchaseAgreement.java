@@ -1,6 +1,5 @@
 package com.exelient.dotcapital.Erpapi.PurchaseAgreement.domain;
 
-import com.exelient.dotcapital.Erpapi.Customer.domain.Customer;
 import jakarta.persistence.*;
 import lombok.AllArgsConstructor;
 import lombok.Data;
@@ -11,7 +10,7 @@ import java.time.LocalDate;
 
 
 @Entity
-@Table(name = "HD_PURCHASE_AGREEMENT", schema = "sales")
+@Table(name = "HD_PURCHASE_AGREEMENT")
 @AllArgsConstructor
 @NoArgsConstructor
 @Data

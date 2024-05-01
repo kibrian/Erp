@@ -3,14 +3,12 @@ package com.exelient.dotcapital.Erpapi.Customer.domain;
 import jakarta.persistence.*;
 import lombok.*;
 
-import java.io.Serializable;
 import java.math.BigDecimal;
 import java.time.LocalDate;
-import java.util.Date;
 
 @Data
 @Entity
-@Table(name = "MST_CUSTOMER", schema = "makess")
+@Table(name = "MST_CUSTOMER")
 @AllArgsConstructor
 @NoArgsConstructor
 public class Customer {
