@@ -10,10 +10,9 @@ import java.util.Date;
 
 @Data
 @Entity
-@Table(name = "MST_CUSTOMER")
+@Table(name = "MST_CUSTOMER", schema = "makess")
 @AllArgsConstructor
 @NoArgsConstructor
-//, schema = "makess"
 public class Customer {
 
     @Id

@@ -11,13 +11,11 @@ import java.time.LocalDate;
 
 
 @Entity
-@Table(name = "HD_PURCHASE_AGREEMENT")
+@Table(name = "HD_PURCHASE_AGREEMENT", schema = "sales")
 @AllArgsConstructor
 @NoArgsConstructor
 @Data
-//, schema = "sales"
 public class PurchaseAgreement {
-
     @Id
     @Column(name = "VC_AGREEMENT_NO")
     private String vcAgreementNo;
