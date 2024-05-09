@@ -56,7 +56,7 @@ public class AccountServiceImpl implements AccountService {
         entity.setStatFlag(requestData.getStatFlag());
         entity.setStatUpFlag(requestData.getStatUpFlag());
         entity.setModDate(requestData.getModDate());
-        entity.setAuthCode(requestData.getAuthCode());
+        entity.setAuthCode("01");
         entity.setField1(requestData.getField1());
         entity.setField2(requestData.getField2());
         entity.setField3(requestData.getField3());

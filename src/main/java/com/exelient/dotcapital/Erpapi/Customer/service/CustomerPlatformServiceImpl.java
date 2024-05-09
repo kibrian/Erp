@@ -205,7 +205,7 @@ public class CustomerPlatformServiceImpl implements CustomerPlatformService {
             customer.setVcCollectorate(request.getVcCollectorate());
             customer.setVcRcNo(request.getVcRcNo());
             customer.setVcPitaxGirNo(request.getVcPitaxGirNo());
-            customer.setNuAccountCode(request.getNuAccountCode());
+            customer.setNuAccountCode(null);
             customer.setNuCurrencyCode(1);
             customer.setVcVendorCode(request.getVcVendorCode());
             customer.setVcEccNo(request.getVcEccNo());
