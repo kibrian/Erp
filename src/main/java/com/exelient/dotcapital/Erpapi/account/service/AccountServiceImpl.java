@@ -8,7 +8,7 @@ import lombok.AllArgsConstructor;
 import org.springframework.data.domain.Page;
 import org.springframework.data.domain.Pageable;
 import org.springframework.stereotype.Service;
-
+import java.util.logging.Logger;
 import java.util.Optional;
 
 @Service
@@ -77,6 +77,20 @@ public class AccountServiceImpl implements AccountService {
         requestData.setCompCode(entity.getCompCode());
         requestData.setAccountCode(entity.getAccountCode());
         requestData.setAccountName(entity.getAccountName());
+
+
+        // Null check for nuAccountCode
+        String name = entity.getAccountName();
+        if (name != null) {
+            entity.setAccountName(name.strip());
+        } else {
+            // Handle the null case, e.g., set a default value or throw a custom exception
+            entity.setAccountName(""); // Example default value
+            // Optionally log the null value
+            // logger.warn("nuAccountCode is null for customer ID: {}", customer.getId());
+        }
+
+
         requestData.setAccGroupCode(entity.getAccGroupCode());
         requestData.setReserved(entity.getReserved());
         requestData.setTaxLimit(entity.getTaxLimit());

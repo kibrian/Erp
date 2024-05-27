@@ -71,8 +71,17 @@ public class CustomerPlatformServiceImpl implements CustomerPlatformService {
         response.setVcCollectorate(customer.getVcCollectorate());
         response.setVcRcNo(customer.getVcRcNo());
         response.setVcPitaxGirNo(customer.getVcPitaxGirNo());
-        response.setNuAccountCode(customer.getNuAccountCode());
-        response.setNuCurrencyCode(customer.getNuCurrencyCode());
+
+        // Null check for nuAccountCode
+        Integer nuAccountCode = customer.getNuAccountCode();
+        if (nuAccountCode != null) {
+            response.setNuAccountCode(nuAccountCode.intValue());
+        } else {
+            // Handle the null case, e.g., set a default value or throw a custom exception
+            response.setNuAccountCode(0); // Example default value
+            // Optionally log the null value
+            // logger.warn("nuAccountCode is null for customer ID: {}", customer.getId());
+        }
         response.setVcVendorCode(customer.getVcVendorCode());
         response.setVcEccNo(customer.getVcEccNo());
         response.setVcLicenseNo(customer.getVcLicenseNo());
@@ -88,8 +97,6 @@ public class CustomerPlatformServiceImpl implements CustomerPlatformService {
         response.setVcField2(customer.getVcField2());
         response.setVcField3(customer.getVcField3());
         response.setVcField4(customer.getVcField4());
-        response.setNuField1(customer.getNuField1());
-        response.setNuField2(customer.getNuField2());
         response.setDtField1(customer.getDtField1());
         response.setDtField2(customer.getDtField2());
         response.setVcBankAcc(customer.getVcBankAcc());
@@ -121,11 +128,12 @@ public class CustomerPlatformServiceImpl implements CustomerPlatformService {
         response.setIdNo(customer.getIdNo());
         //response.setDtIdDate(customer.getDtIdDate());
         // response.setVcIdPlace(customer.getVcIdPlace());
-        //  response.setBlSignature(customer.getBlSignature());
-        //   response.setBlLogo(customer.getBlLogo());
+        // response.setBlSignature(customer.getBlSignature());
+        // response.setBlLogo(customer.getBlLogo());
 
         return response;
     }
+
 
     @Override
     public CustomerResponse createCustomer(CustomerResponse request) throws CustomerAlreadyExistException {
@@ -138,16 +146,10 @@ public class CustomerPlatformServiceImpl implements CustomerPlatformService {
                 // Generate unique identifier
                 String uniqueId = UUID.randomUUID().toString();
 
-                // Concatenate "VC" with the unique identifier
-                //String vcCompCode = "VC" + uniqueId;
-
-                // Truncate the generated code to a maximum length of 5 characters
-                //vcCompCode = vcCompCode.substring(0, Math.min(vcCompCode.length(), 5));
-
                 // Proceed with creating the new customer
                 int nextCustomerCode = customerRepository.getNextCustomerCode() != null ? customerRepository.getNextCustomerCode() + 1 : 1;
                 request.setNuCustomerCode(nextCustomerCode);
-                //request.setVcCompCode(vcCompCode);
+
 
 
                 Customer customer = mapToMstCustomerResponse(request);
