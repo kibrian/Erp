@@ -13,8 +13,8 @@ import java.time.LocalDate;
 @NoArgsConstructor
 @AllArgsConstructor
 @Entity
-@Table(name = "MST_ACCOUNT", schema = "FINANCE")
-//@Table(name = "MST_ACCOUNT")
+//@Table(name = "MST_ACCOUNT", schema = "FINANCE")
+@Table(name = "MST_ACCOUNT")
 public class Account {
     @Id
     @Column(name = "NU_ACCOUNT_CODE")

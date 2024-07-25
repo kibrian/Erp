@@ -41,7 +41,7 @@ public class InstallmentServiceImpl implements InstallmentService {
         entity.setVcCompCode("01");
         entity.setVcAgreementNo(data.getVcAgreementNo());
         entity.setDtAgreementDate(data.getDtAgreementDate());
-        entity.setNuSerialNo(data.getNuSerialNo());
+        entity.setNuSerialNo(1);
         entity.setDtInstallmentDate(data.getDtInstallmentDate());
         entity.setNuPrincipalInstAmount(data.getNuPrincipalInstAmount());
         entity.setNuInterestInstAmount(data.getNuInterestInstAmount());

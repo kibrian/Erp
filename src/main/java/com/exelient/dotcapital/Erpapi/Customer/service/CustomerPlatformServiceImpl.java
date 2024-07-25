@@ -143,6 +143,7 @@ public class CustomerPlatformServiceImpl implements CustomerPlatformService {
             if (customerExists.isPresent()) {
                 return new CustomerResponse("Customer already exists.");
             } else {
+
                 // Generate unique identifier
                 String uniqueId = UUID.randomUUID().toString();
 

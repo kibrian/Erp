@@ -10,8 +10,8 @@ import java.time.LocalDate;
 
 
 @Entity
-@Table(name = "HD_PURCHASE_AGREEMENT", schema = "SALES")
-//@Table(name = "HD_PURCHASE_AGREEMENT")
+//@Table(name = "HD_PURCHASE_AGREEMENT", schema = "SALES")
+@Table(name = "HD_PURCHASE_AGREEMENT")
 @AllArgsConstructor
 @NoArgsConstructor
 @Data
